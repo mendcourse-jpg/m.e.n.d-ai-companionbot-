@@ -11,7 +11,7 @@ async function sendMessage() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_KEY}`
+            "Authorization": `Bearer ${354c0d86744049f8a68a076cff259533}`
         },
         body: JSON.stringify({
             model: "gpt-4o-mini",
