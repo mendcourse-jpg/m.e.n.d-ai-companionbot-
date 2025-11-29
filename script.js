@@ -1,5 +1,5 @@
 // QUICK TEST VERSION — API key will be public. Use only for testing.
-const API_KEY = "ab803d1e42d747b2986da4df76d9f9d9"; // <-- replace with your new key
+const API_KEY = "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"; // <-- replace with your new key
 
 async function sendMessage() {
     const userInput = document.getElementById("user-input").value;
