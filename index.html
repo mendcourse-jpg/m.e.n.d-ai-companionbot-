@@ -1,101 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>M.E.N.D. Companion</title>
-  <style>
-    :root{
-      --gold:#C9A44C; --cocoa:#7A4C32; --cream:#F5F1E8; --forest:#274028; --muted:#666;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,Arial, sans-serif;background:var(--cream);color:#222}
-    .wrap{max-width:980px;margin:0 auto;padding:18px}
-    .site-header{background:linear-gradient(135deg,var(--forest),var(--gold));color:white;padding:28px 0;text-align:center}
-    .site-header h1{margin:0;font-size:24px}
-    .tagline{opacity:.95;margin:.25rem 0 0}
-    .main-grid{display:grid;grid-template-columns:320px 1fr;gap:18px;padding:20px 0}
-    .card{background:white;border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
-    .buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-    .buttons button{background:var(--forest);color:white;border:0;padding:8px 10px;border-radius:8px;cursor:pointer}
-    .chat{display:flex;flex-direction:column;height:460px}
-    .messages{flex:1;overflow:auto;padding:12px;border-radius:10px;border:1px solid #eee;background:linear-gradient(180deg,#fff,#fbfbfb)}
-    .msg{margin-bottom:10px}
-    .msg .who{font-weight:700;margin-bottom:4px}
-    .msg.bot .bubble{background:#f7f7f7;border-left:4px solid var(--gold);padding:10px;border-radius:8px}
-    .msg.user .bubble{background:var(--forest);color:white;padding:10px;border-radius:8px;display:inline-block}
-    .input-row{display:flex;gap:8px;margin-top:12px}
-    .input-row input{flex:1;padding:10px;border-radius:10px;border:1px solid #ddd}
-    .input-row button{background:var(--gold);border:none;padding:10px 14px;border-radius:10px;cursor:pointer}
-    .small{font-size:12px;color:var(--muted);margin-top:8px}
-    .site-footer{padding:18px 0;text-align:center;color:var(--muted);margin-top:18px}
-    @media (max-width:800px){.main-grid{grid-template-columns:1fr;padding:12px}.left{order:2}.right{order:1}.chat{height:56vh}}
-  </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>M.E.N.D. Companion</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
 </head>
+
 <body>
-  <header class="site-header"><div class="wrap"><h1>M.E.N.D. Companion</h1><p class="tagline">Healing, strength, and stability for Black moms rebuilding their lives.</p></div></header>
+    <div class="chat-container">
+        <h1 class="title">M.E.N.D. Companion</h1>
 
-  <main class="wrap main-grid">
-    <section class="left">
-      <div class="card">
-        <h2>Quick Actions</h2>
-        <p>Tap any command below or type it in the chat:</p>
-        <div class="buttons">
-          <button data-cmd="heal">Heal</button>
-          <button data-cmd="journal">Journal</button>
-          <button data-cmd="script">Script</button>
-          <button data-cmd="routine">Routine</button>
-          <button data-cmd="organize">Organize</button>
-          <button data-cmd="momhelp">Mom Help</button>
-          <button data-cmd="business">Business</button>
-          <button data-cmd="resources">Resources</button>
+        <div id="chat-box" class="chat-box"></div>
+
+        <div class="input-area">
+            <input 
+                type="text" 
+                id="user-input" 
+                placeholder="Type your message..."
+            />
+            <button id="send-btn">Send</button>
         </div>
-      </div>
-      <div class="card">
-        <h3>Safety & Boundaries</h3>
-        <p>This companion is supportive but not a replacement for professional medical, legal, or emergency services. If you are in immediate danger, contact local emergency services. In the U.S. for mental health crises call <strong>988</strong>.</p>
-      </div>
-    </section>
-
-    <section class="chat card right">
-      <div id="messages" class="messages" aria-live="polite"></div>
-      <div class="input-row">
-        <input id="userInput" placeholder="Type 'menu' or a command (e.g. heal)" autocomplete="off" />
-        <button id="sendBtn">Send</button>
-      </div>
-      <p class="small">Tip: You can type commands without the slash (e.g. heal, journal).</p>
-    </section>
-  </main>
-
-  <footer class="site-footer"><div class="wrap"><p>© 2025 M.E.N.D. Emotional Healing</p></div></footer>
-
-  <script>
-    // Embedded client-side bot (no backend required)
-    const BOT_IDENTITY = {
-      Name: "M.E.N.D. Companion",
-      Short_Welcome: `Hi — I’m the M.E.N.D. Companion. I’m here for Black moms healing after a breakup with their children’s father.
-I offer warm, practical support: emotional healing exercises, parenting help, home organization, small-business steps, and help finding community resources. How can I support you right now?
-
-Choose one:
-• Heal emotionally
-• Find local resources
-• Get a routine or organize your home
-• Parenting help
-• Business & income ideas
-
-If you prefer, type a question or say "menu".`,
-      Safety_Boundaries: `I’m here to support and encourage, but I don’t replace medical, legal, or emergency services. If you are in immediate danger call your local emergency number or 988 for mental health emergencies in the U.S.`
-    };
-
-    const FLOWS = {
-      heal: `1. Take a deep breath with me. Inhale for 4, hold 2, exhale 6. Repeat twice.
-2. 3-minute grounding: Notice 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, 1 you can taste or imagine.
-3. Short practice: Write one sentence about something you did today that shows you cared for your child or yourself.
-4. Offer journaling prompt: "When I think about my future, the first small step I want to take is…"
-5. Ask: Would you like a longer guided script to read or record? (Type 'script')`,
-
-      journal: `Journaling prompts:
-1) Describe the day you decided you'd had enough — what did you learn about your strength?
-2) List 10 small things that made you smile in the last 30 days.
-3) Write a compassionate letter to your younger self about resilience.
-Closing action:
+    </div>
+</body>
+</html>
