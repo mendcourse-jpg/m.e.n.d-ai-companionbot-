@@ -1,0 +1,34 @@
+body {
+    background-color: #F5F1E8;
+    font-family: Arial, sans-serif;
+    color: #274028;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #C9A44C;
+    text-align: center;
+}
+
+.bot-box {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+input, button {
+    padding: 12px;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid #7A4C32;
+}
+
+button {
+    background-color: #C9A44C;
+    color: white;
+    font-weight: bold;
+  }
