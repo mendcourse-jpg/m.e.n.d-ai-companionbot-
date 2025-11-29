@@ -1,4 +1,5 @@
-const apiKey = process.env.OPENAI_API_KEY;
+// QUICK TEST VERSION — API key will be public. Use only for testing.
+const API_KEY = "ab803d1e42d747b2986da4df76d9f9d9"; // <-- replace with your new key
 
 async function sendMessage() {
     const userInput = document.getElementById("user-input").value;
@@ -8,7 +9,7 @@ async function sendMessage() {
     document.getElementById("user-input").value = "";
 
     try {
-        const response = await fetch("https://api.openai.com/v1/responses", {
+        const resp = await fetch("https://api.openai.com/v1/responses", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -20,18 +21,19 @@ async function sendMessage() {
             })
         });
 
-        const data = await response.json();
+        const data = await resp.json();
 
+        // Best-effort parsing for the /v1/responses shape:
         const botReply =
-            data.output_text ||
-            data.output_text?.[0] ||
-            data.choices?.[0]?.message?.content ||
-            "Error: No response text.";
+            data.output_text || // simple field sometimes present
+            (data.output && data.output[0] && data.output[0].content && data.output[0].content[0] && (data.output[0].content[0].text || data.output[0].content[0].text)) ||
+            (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) ||
+            "Sorry — I didn't get an answer.";
 
         addMessage("Bot", botReply);
-
-    } catch (error) {
-        addMessage("Bot", "Error connecting to the AI.");
+    } catch (err) {
+        console.error("Fetch error:", err);
+        addMessage("Bot", "Error connecting to AI. (See console)");
     }
 }
 
@@ -41,4 +43,5 @@ function addMessage(sender, text) {
     message.className = sender === "You" ? "user-message" : "bot-message";
     message.textContent = `${sender}: ${text}`;
     chatBox.appendChild(message);
-                            
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
