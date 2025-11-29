@@ -1,26 +1,43 @@
-function sendMessage() {
-  const input = document.getElementById("userInput").value.toLowerCase().trim();
-  const output = document.getElementById("output");
+const chatBox = document.getElementById("chat-box");
+const input = document.getElementById("user-input");
+const sendBtn = document.getElementById("send-btn");
 
-  if (!input) return;
+// Simple bot responses — you can change these later
+function generateBotReply(message) {
+    message = message.toLowerCase();
 
-  // Commands
-  const commands = {
-    "/heal": "Let's take a breath together, sis. Inhale 4… hold 2… exhale 6.\n\nYou are safe. You are seen.",
-    "/journal": "Journal Prompt:\n“Where did I show strength today, even in a small way?”",
-    "/script": "Healing Script:\n“You are rebuilding with intention. You deserve peace and softness.”",
-    "/routine": "Morning: 5-minute breath + 10-minute tidy.\nEvening: 10-minute reset + journal.",
-    "/organize": "30/30 Declutter Method: 30 minutes, 30 items sorted.",
-    "/momhelp": "Parenting Tip: Name the feeling. Sit with them for 60 seconds.",
-    "/business": "Start with a micro-offer. Choose one skill you already have.",
-    "/resources": "Tell me your city/state or ZIP so I can look up support near you."
-  };
+    if (message.includes("hello") || message.includes("hi")) {
+        return "Hey love, I'm here. What’s on your heart today?";
+    }
 
-  // If the user uses a command
-  if (commands[input]) {
-    output.innerText = commands[input];
-  } 
-  else {
-    output.innerText = "I got you, sis. Try one of these:\n/heal\n/journal\n/script\n/routine\n/organize\n/momhelp\n/business\n/resources";
-  }
-      }
+    if (message.includes("breakup")) {
+        return "Breakups with a child's father hit deep. Tell me what you're struggling with right now.";
+    }
+
+    if (message.includes("hurt")) {
+        return "It's okay to acknowledge your pain. Healing starts with honesty.";
+    }
+
+    return "I hear you. Tell me a little more so I can support you.";
+}
+
+function addMessage(text, sender) {
+    const msg = document.createElement("div");
+    msg.classList.add("message", sender);
+    msg.textContent = text;
+    chatBox.appendChild(msg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+sendBtn.addEventListener("click", () => {
+    const userText = input.value.trim();
+    if (userText === "") return;
+
+    addMessage(userText, "user");
+    input.value = "";
+
+    setTimeout(() => {
+        const botReply = generateBotReply(userText);
+        addMessage(botReply, "bot");
+    }, 600);
+});
